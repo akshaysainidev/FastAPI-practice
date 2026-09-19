@@ -69,6 +69,24 @@ async def purchase_book(
         return result
 
 # headers and cookies
+#read a header
+@app.get("/show_header")
+def show_header(user_agent:str=Header(default="Unknown")):
+    return {"your borowser info":user_agent}
+
+#set cookie api when someone visits
+@app.post("/set_cookies")
+def set_cookies_fun(response:Response):
+    response.set_cookie(key="my_testing_cookie",value="hello this is my i.e akshay's testing cookie")
+    return {"msg":f"Temp Cookies has been set by you with the key"}
+
+#read the cookie back
+@app.get("/get_cookies")
+def get_cookies_fun(my_cookies:str|None=Cookie(default=None,alias="my_testing_cookie")): # or you can remove alias and use the same name as key in set_cookie function
+    if my_cookies is None:
+        return {"Cookies NOT found"}
+    return {"cookies value ",my_cookies}
+
 
 
 def main():
